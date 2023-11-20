@@ -1,0 +1,33 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+struct Cell {
+	float3 position;
+	float4 color;
+};
+
+RWStructuredBuffer<Cell> cells;
+
+bool willBorn;
+
+[numthreads(8,8,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+	Cell cell = cells[id.x];
+
+	float _r = 0.7f;
+	float _g = 0.7f;
+	float _b = 0.7f;
+
+	if(willBorn){
+		_r = 1;
+		_g = 1;
+		_b = 0;
+	}
+	
+
+	cell.color = float4(_r, _g, _b, 0);
+
+	cells[id.x] = cell;
+}
+

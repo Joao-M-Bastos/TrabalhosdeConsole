@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 2f6ef45f24989a24297497eda52a495b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - cShader: {fileID: 7200000, guid: 9e544620b9a205a43ab330f301142f61, type: 3}
+  - quadPrefab: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
