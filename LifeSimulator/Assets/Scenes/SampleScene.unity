@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cShader: {fileID: 7200000, guid: 9e544620b9a205a43ab330f301142f61, type: 3}
   quadPrefab: {fileID: 764061825650048190, guid: b67a64a8be2029942abff47e7ab4f347, type: 3}
-  counts: 100
+  counts: 1000
 --- !u!4 &228826644
 Transform:
   m_ObjectHideFlags: 0

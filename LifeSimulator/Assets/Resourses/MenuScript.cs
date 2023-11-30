@@ -21,6 +21,6 @@ public class MenuScript : MonoBehaviour
 
     public void StartSimulation()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 }
