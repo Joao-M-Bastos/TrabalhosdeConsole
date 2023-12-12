@@ -20,10 +20,9 @@ import javax.swing.Timer;
 public class Screen extends JPanel implements ActionListener {
 	public static Main main;
 	
-	public static int SCREENRES_X = 1290;
+	public static int SCREENRES_X = 1440;
 	public static int SCREENRES_Y = 900;
 	
-	public static int STATICPARTICLENUMBER = 0;
 	public static int PARTICLENUMBER = 0;
 	public static int PSIZE = 6;
 	
@@ -74,40 +73,35 @@ public class Screen extends JPanel implements ActionListener {
 	public void beginScene() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
-		System.out.println("Quantas particulas estaticas você gostaria de simular?\n");
-		
-		try {
-			STATICPARTICLENUMBER = Integer.parseInt(br.readLine());
-		} catch (NumberFormatException e) {
-			System.out.println("Não é possivel trabalhar com um texto. Eu presiso de um numero!");
-			System.exit(1);
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		System.out.println("Quantas particulas não estaticas você gostaria de simular?\n");
-		
-		try {
-			PARTICLENUMBER = Integer.parseInt(br.readLine());
-		} catch (NumberFormatException e) {
-			System.out.println("Não é possivel trabalhar com um texto. Eu presiso de um numero!");
-			System.exit(1);
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 		int choice = 0;
 		
-		System.out.println("Qual tipo de colissão você gostaria de usar?\n");
-		System.out.println("\nAperte 1 para colisão normal do sistema.\n");
-		System.out.println("\nAperte 2 para uma colisão baseada em QuadTree.\n");
+		System.out.println("How many particles do you want to simulate?\n");
+		System.out.println("\nPress 1 for a little\n");
+		System.out.println("\nPress 2 for a lot.\n");
 		
 		try {
 			choice = Integer.parseInt(br.readLine());
 		} catch (NumberFormatException e) {
-			System.out.println("Não é possivel trabalhar com um texto. Eu presiso de um numero!");
+			System.out.println("I can't work putting a word as a quantity. I need a number!");
+			System.exit(1);
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		if(choice == 1) PARTICLENUMBER = 50;
+		if(choice == 2) PARTICLENUMBER = 500;
+		
+		choice = 0;
+		
+		System.out.println("What kind of collision system do you want to use?\n");
+		System.out.println("\nPress 1 to normal collision system.\n");
+		System.out.println("\nPress 2 to Quadtree based collision system.\n");
+		
+		try {
+			choice = Integer.parseInt(br.readLine());
+		} catch (NumberFormatException e) {
+			System.out.println("I can't work putting a word as a quantity. I need a number!");
 			System.exit(1);
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -115,24 +109,13 @@ public class Screen extends JPanel implements ActionListener {
 		}
 		
 		if(choice == 1) mode = CollisionMode.NORMAL;
-		else if(choice == 2) mode = CollisionMode.QUADTREE;
-		else {
-			System.out.println("O valor passado não é  valido, por favor complete com 1 ou 2!");
-			System.exit(1);
-		}
-		
-		for (int i = 0; i < STATICPARTICLENUMBER; i++) {
-			Random r = new Random();
-			float rx = r.nextFloat() * SCREENRES_X;
-			float ry = r.nextFloat() * SCREENRES_Y;
-			particles.add(new Particle(rx, ry, SCREENRES_X, SCREENRES_Y, true));
-		}
+		if(choice == 2) mode = CollisionMode.QUADTREE;
 		
 		for (int i = 0; i < PARTICLENUMBER; i++) {
 			Random r = new Random();
 			float rx = r.nextFloat() * SCREENRES_X;
 			float ry = r.nextFloat() * SCREENRES_Y;
-			particles.add(new Particle(rx, ry, SCREENRES_X, SCREENRES_Y, false));
+			particles.add(new Particle(rx, ry, SCREENRES_X, SCREENRES_Y));
 		}
 		
 		if(mode == CollisionMode.NORMAL) for(Particle p : particles) p.particles = particles;
@@ -175,7 +158,7 @@ public class Screen extends JPanel implements ActionListener {
 			for(Particle p : particles) p.CollisionCheck();
 			break;
 		case QUADTREE:
-			quad = new Quad(new Rect(0, 0, SCREENRES_X, SCREENRES_Y), 8);
+			quad = new Quad(new Rect(0, 0, SCREENRES_X, SCREENRES_Y), 4);
 			for(Particle p : particles) quad.Insert(p);
 			for(Particle p : particles) p.Execute();
 			for(Particle p : particles) p.CollisionCheck();
@@ -194,7 +177,7 @@ public class Screen extends JPanel implements ActionListener {
     
     public void addParticle() {
     	Point mouse = getMousePosition();
-    	particles.add(new Particle(mouse.x, mouse.y, SCREENRES_X, SCREENRES_Y, false));
+    	particles.add(new Particle(mouse.x, mouse.y, SCREENRES_X, SCREENRES_Y));
     }
     
 	@Override

@@ -14,7 +14,6 @@ public class Particle{
 	int STATE;
 	int AlarmState = 1;
 	
-	boolean isStatic = false;
 	boolean duringCollision = false;
 	int collisionDuration = 0;
 	
@@ -22,12 +21,11 @@ public class Particle{
 	
 	Color color = Color.white;
 	
-	public Particle(float px, float py, float lx, float ly, boolean isStatic) {
+	public Particle(float px, float py, float lx, float ly) {
 		this.px = px; this.py = py;
 		this.lx = lx; this.ly = ly;
 		this.lastX = px;
 		this.lastY = py;
-		this.isStatic = isStatic;
 	}
 	public void Execute() {
 		if (duringCollision == true) {
@@ -36,20 +34,11 @@ public class Particle{
 			if (collisionDuration <= 0)
 				duringCollision = false;
 		} else {
-			if(isStatic)
-				color = Color.blue;
-			else {
-				color = Color.white;
-			}
-			
-		}
+			color = Color.white; }
 		RandomMove();
 	}
 	public void RandomMove() {
-		
-		if(isStatic)
-			return;
-		
+
 			switch(STATE) {
 			case 1: px++; break;
 			case 2: px--; break;
@@ -90,19 +79,9 @@ public class Particle{
 				   py + 4 >= other.py) 
 				{
 					duringCollision = true;
-					collisionDuration = 100;
+					collisionDuration = 10;
 					other.duringCollision = true;
-					other.collisionDuration = 100;
-					
-					if(!isStatic) 
-					{
-					Random r = new Random();
-					float rx = r.nextFloat() * lx;
-					float ry = r.nextFloat() * ly;
-					
-					this.px = rx;
-					this.py = ry;
-					}
+					other.collisionDuration = 10;
 				} 
 			}
 		}
